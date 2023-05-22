@@ -1,25 +1,81 @@
-﻿namespace OtOSecretChat;
+﻿using System.Diagnostics;
+using CommunityToolkit.Maui.Views;
+using Microsoft.AspNetCore.SignalR.Client;
+
+namespace OtOSecretChat;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private readonly HubConnection _connection;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
+        _connection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5001/chat")
+            .Build();
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+        //_connection.On<string>("ReceiveMessage", (message) =>
+        //{
+        //    Debug.WriteLine(message);
+        //});
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+        Task.Run(() =>
+        {
+            Dispatcher.Dispatch(async () => await _connection.StartAsync());
+        });
+    }
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+
+    private async void OnButtonClicked(object sender, EventArgs e)
+    {
+        await DisplayPopup();
+
+
+    }
+
+    public async Task DisplayPopup()
+    {
+        var popup = new MainPagePopup();
+
+        var result = await this.ShowPopupAsync(popup);
+
+        if (result is bool returnVal)
+        {
+            if (returnVal)
+            {
+                await waitForSeconds();
+                var decision = await this.ShowPopupAsync(new CreatePopup());
+                if (decision is int value)
+                {
+                    await _connection.InvokeCoreAsync("CreateRoom", args: new[] { decision.ToString() });
+                    await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+                }
+            }
+            else
+            {
+                await waitForSeconds();
+                var decision = await this.ShowPopupAsync(new JoinPopup());
+                if (decision is int value)
+                {
+                    await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
+                    await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+                }
+            }
+        }
+    }
+
+    async Task waitForSeconds()
+    {
+        await Task.Delay(500);
+    }
+
+    //public async void sendmessage(string message)
+    //{
+    //    await _connection.InvokeCoreAsync("SendMessage", args: new[] {"hi"});
+    //}
+
 }
+
 
 

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="OtOSecretChat.MainPagePopup">
+    <Grid
+        HeightRequest="270"
+        WidthRequest="360"
+        BackgroundColor="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label 
+            Text="Room"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            FontSize="Title"
+            BackgroundColor="DarkBlue"/>
+        <Label
+            Text="Create a room or join to start"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            FontSize="Medium"
+            Margin="5, 0, 5, 0"
+            TextColor="Black"/>
+        <Button
+            Text="Create"
+            Grid.Row="2"
+            Grid.Column="0"
+            HeightRequest="70"
+            Margin="30, 0, 20, 20"
+            BackgroundColor="Orange"
+            FontSize="Large"
+            TextColor="White"
+            Clicked="OnJoinBtn"
+            />
+        <Button
+            Text="Join"
+            Grid.Row="2"
+            Grid.Column="1"
+            HeightRequest="70"
+            Margin="20, 0, 30, 20"
+            FontSize="Large"
+            TextColor="White"
+            BackgroundColor="Orange"
+            Clicked="OnCreateBtn"
+            />
+    </Grid>
+</toolkit:Popup>
+

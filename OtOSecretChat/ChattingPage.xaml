@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OtOSecretChat.ChattingPage"
+             Title="ChattingPage">
+    <ScrollView>
+        <StackLayout BackgroundColor="black">
+        <CollectionView x:Name="collection" HeightRequest="630">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Frame Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="{Binding layout}" BackgroundColor="White">
+                            <Label Text="{Binding Text}" TextColor="Black" MaximumWidthRequest="130" MinimumWidthRequest="80" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" BackgroundColor="White" />
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+
+        </CollectionView>
+<HorizontalStackLayout HorizontalOptions="Center">
+            <Entry
+                x:Name="Input"
+                Placeholder="Type your message"
+                FontSize="18"
+                HeightRequest="70"
+                WidthRequest="230"
+                BackgroundColor="White"
+                TextColor="Black"
+                />
+
+            <Button
+                x:Name="sendButton"
+                Text="Send"
+                Clicked="Send"
+                HeightRequest="70"
+                BackgroundColor="AliceBlue"
+                
+                />
+    </HorizontalStackLayout>
+
+                    </StackLayout>
+            </ScrollView>
+</ContentPage>
