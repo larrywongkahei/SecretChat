@@ -2,13 +2,18 @@
 using CommunityToolkit.Maui.Views;
 using SignalRServer.Models;
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using System.Threading;
 
 namespace OtOSecretChat;
 
 public partial class JoinPopup : Popup
 {
 	public string RoomNum { get; set; }
-	public JoinPopup()
+
+    private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+    public JoinPopup()
 	{
 		InitializeComponent();
 	}
@@ -22,10 +27,33 @@ public partial class JoinPopup : Popup
             {
                 string content = response.Content.ReadAsStringAsync().Result;
                 var theRoom = JsonSerializer.Deserialize<Room>(content);
-                if (theRoom != null)
+                if(theRoom == null)
+                {
+                        string text = "This room is not exist";
+                        ToastDuration duration = ToastDuration.Short;
+                        double fontSize = 14;
+
+                        var toast = Toast.Make(text, duration, fontSize);
+
+                        await toast.Show(cancellationTokenSource.Token);
+                    
+                }
+                else if (theRoom.UserTwo != null)
+                {
+                    string text = "This room is Full";
+                    ToastDuration duration = ToastDuration.Short;
+                    double fontSize = 14;
+
+                    var toast = Toast.Make(text, duration, fontSize);
+
+                    await toast.Show(cancellationTokenSource.Token);
+
+                }
+                else
                 {
                     Close(Convert.ToInt32(RoomNum));
                 }
+
             }
         }
                 
