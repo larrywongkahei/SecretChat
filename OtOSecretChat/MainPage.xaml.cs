@@ -34,6 +34,36 @@ public partial class MainPage : ContentPage
 
     }
 
+    //public async Task DisplayPopup()
+    //{
+    //    var popup = new MainPagePopup();
+
+    //    var result = await this.ShowPopupAsync(popup);
+
+    //    if (result is bool returnVal)
+    //    {
+    //        if (returnVal)
+    //        {
+    //            await waitForSeconds();
+    //            var decision = await this.ShowPopupAsync(new CreatePopup());
+    //            if (decision is int value)
+    //            {
+    //                await _connection.InvokeCoreAsync("CreateRoom", args: new[] { decision.ToString() });
+    //                await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+    //            }
+    //        }
+    //        else
+    //        {
+    //            await waitForSeconds();
+    //            var decision = await this.ShowPopupAsync(new JoinPopup());
+    //            if (decision is int value)
+    //            {
+    //                await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
+    //                await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+    //            }
+    //        }
+    //    }
+    //}
     public async Task DisplayPopup()
     {
         var popup = new MainPagePopup();
@@ -45,10 +75,9 @@ public partial class MainPage : ContentPage
             if (returnVal)
             {
                 await waitForSeconds();
-                var decision = await this.ShowPopupAsync(new CreatePopup());
+                var decision = await this.ShowPopupAsync(new CreatePopup(_connection));
                 if (decision is int value)
-                {
-                    await _connection.InvokeCoreAsync("CreateRoom", args: new[] { decision.ToString() });
+                {                  
                     await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
                 }
             }
@@ -59,11 +88,11 @@ public partial class MainPage : ContentPage
                 if (decision is int value)
                 {
                     await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
-                    await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
                 }
             }
         }
     }
+
 
     async Task waitForSeconds()
     {

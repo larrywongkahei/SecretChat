@@ -100,9 +100,9 @@
             HorizontalOptions="Center"
             FontSize="Large"
             Padding="60, 15, 60, 15"
-            BackgroundColor="#d5a6bd"
+            BackgroundColor="Orange"
             TextColor="white"
-            Clicked="CreateRoom"
+            Clicked="StartChatting"
             />
     </Grid>
 </toolkit:Popup>
