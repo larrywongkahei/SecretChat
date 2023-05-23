@@ -1,6 +1,14 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using SignalRServer.Models;
+using SignalRServer.Service;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<RoomNumberDatabaseSettings>(
+    builder.Configuration.GetSection("RoomNumberDatabase"));
+
+builder.Services.AddSingleton<RoomsService>();
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddSignalR();

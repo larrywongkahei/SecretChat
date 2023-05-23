@@ -18,6 +18,11 @@ namespace SignalRServer
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, RoomNum);
         }
+
+        public async Task ActivateRoom(string RoomNum)
+        {
+            ;
+        }
     }
 }
 
