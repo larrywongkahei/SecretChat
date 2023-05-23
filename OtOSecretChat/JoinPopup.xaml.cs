@@ -9,7 +9,7 @@ namespace OtOSecretChat;
 
 public partial class JoinPopup : Popup
 {
-	public string RoomNum { get; set; }
+	public int RoomNum { get; set; }
 
     private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -20,7 +20,7 @@ public partial class JoinPopup : Popup
 
 	async void JoinRoom(Object sender, EventArgs e)
 	{
-		RoomNum = Input.Text;
+		RoomNum = Convert.ToInt32(Input.Text);
         using (HttpClient client = new HttpClient())
         {
             using (HttpResponseMessage response = await client.GetAsync($"http://localhost:5001/api/Rooms/{RoomNum}"))

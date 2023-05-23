@@ -17,6 +17,7 @@ namespace SignalRServer.Models
         [JsonPropertyName("userTwo")]
         public string UserTwo { get; set; }
 
+        [JsonPropertyName("isActive")]
         public string IsActive { get; set; }
 
     }

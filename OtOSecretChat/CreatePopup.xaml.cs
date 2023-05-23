@@ -39,14 +39,8 @@ public partial class CreatePopup : Popup
 			Debug.Write("created a client");
 			using (HttpResponseMessage response = await client.GetAsync($"http://localhost:5001/api/Rooms/{RoomNumber}"))
 			{
-				Debug.WriteLine(RoomNumber);
-                Debug.Write("fetched a response");
 				string content = response.Content.ReadAsStringAsync().Result;
-				Debug.WriteLine(content);
 				var theRoom = JsonSerializer.Deserialize<Room>(content);
-                Debug.WriteLine(theRoom.GetType());
-                Debug.WriteLine(theRoom.UserOne);
-                Debug.WriteLine(theRoom.UserTwo);
                 if (theRoom.UserTwo != null)
 				{
 					Close(theRoom.RoomNumber);
