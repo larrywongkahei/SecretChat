@@ -49,9 +49,9 @@ public partial class ChattingPage : ContentPage
         });
     }
 
-    void OnPopped(object sender, EventArgs e)
+    async void OnPopped(object sender, EventArgs e)
     {
-        Debug.WriteLine("hi");
+        await connection.InvokeCoreAsync("LeaveRoom", args: new[] { RoomNumber });
     }
 
     async void Send(object sender, EventArgs e)

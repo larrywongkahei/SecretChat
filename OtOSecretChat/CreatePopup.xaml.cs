@@ -21,9 +21,8 @@ public partial class CreatePopup : Popup
 	{
 		_connection = connection;
 		InitializeComponent();
-		BindingContext = this;
-		var randomNum = new Random();
-		RoomNumber = randomNum.Next(1000, 9999);
+		getNonDuplicateNumber();
+        BindingContext = this;		
 		createRoom();
     }
 
@@ -58,20 +57,32 @@ public partial class CreatePopup : Popup
 			}
 		}
 
+	public async void getNonDuplicateNumber()
+	{
+		using(HttpClient httpClient = new HttpClient())
+		{
+			using(HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5001/api/Rooms"))
+			{
+				string content = response.Content.ReadAsStringAsync().Result;
+				var data = JsonSerializer.Deserialize<Room[]>(content);
+                var randomNum = new Random();
+                bool readyToReturn = false;
+				while (!readyToReturn)
+				{
+                    int roomNum = randomNum.Next(1000, 9999);
+					Debug.WriteLine(roomNum);
+					var result = data.FirstOrDefault(x => x.RoomNumber == roomNum);
+					Debug.WriteLine(result?.RoomNumber);
+					if(result == null)
+					{
+						RoomNumber = roomNum;
+						break;
+                    }
+                }
+
+            }
+
+        }
 	}
 
-
-//public partial class CreatePopup : Popup
-//{
-//    public int RoomNumber { get; set; }
-//    public CreatePopup()
-//    {
-//        InitializeComponent();
-//        BindingContext = this;
-//        var randomNum = new Random();
-//        RoomNumber = randomNum.Next(1000, 9999);
-//    }
-
-//    void CreateRoom(Object sender, EventArgs e) => Close(RoomNumber);
-//}
-
+	}

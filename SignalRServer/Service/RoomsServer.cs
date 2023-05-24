@@ -32,8 +32,8 @@ namespace SignalRServer.Service
         public async Task UpdateAsync(string roomNum, Room updatedRoom) =>
             await _roomsCollection.ReplaceOneAsync(x => x.RoomNumber.ToString() == roomNum, updatedRoom);
 
-        public async Task RemoveAsync(string id) =>
-            await _roomsCollection.DeleteOneAsync(x => x.Id == id);
+        public async Task RemoveAsync(int RoomNum) =>
+            await _roomsCollection.DeleteOneAsync(x => x.RoomNumber == RoomNum);
     }
 }
 

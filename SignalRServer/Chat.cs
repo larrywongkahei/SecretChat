@@ -14,6 +14,7 @@ namespace SignalRServer
         {
             _roomsService = roomservice;
         }
+
         public async Task SendMessage(string message, string roomnum)
         {
             await Clients.Group(roomnum).SendAsync("ReceiveMessage",message +"«"+ Context.ConnectionId);
@@ -36,6 +37,12 @@ namespace SignalRServer
                 Room newRoom = new Room { Id = response.Id, RoomNumber = response.RoomNumber, UserOne = response.UserOne, UserTwo = Context.ConnectionId, IsActive = "true"};
                 await _roomsService.UpdateAsync(RoomNum, newRoom);
             }
+        }
+
+        public async Task LeaveRoom(string RoomNum)
+        {
+            await _roomsService.RemoveAsync(Convert.ToInt32(RoomNum));
+            await Clients.Group(RoomNum).SendAsync("ReceiveMessage", "This chat will be closed after 5 seconds, users would not be able to type.");
         }
 
     }
