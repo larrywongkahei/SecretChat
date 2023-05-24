@@ -7,6 +7,7 @@ namespace OtOSecretChat;
 
 public partial class ChattingPage : ContentPage
 {
+
     public string messageToShow { get; set; }
 
     public string RoomNumber { get; set; }
@@ -15,18 +16,22 @@ public partial class ChattingPage : ContentPage
 
     public ObservableCollection<Labelclass> labelList;
 
-    public ChattingPage(HubConnection connection, string RoomNum)
+    public NavigationPage _mainPage;
+
+    public ChattingPage(HubConnection connection, string RoomNum, NavigationPage mainpage)
     {
         InitializeComponent();
+        _mainPage = mainpage;
+        _mainPage.Popped += new EventHandler<NavigationEventArgs>(OnPopped);
         BindingContext = this;
         this.connection = connection;
         this.RoomNumber = RoomNum;
         labelList = new ObservableCollection<Labelclass>() { };
+
         Dispatcher.DispatchAsync(() =>
         {
             collection.ItemsSource = labelList;
         });
-
 
         connection.On<String>("ReceiveMessage", (message) =>
         {
@@ -44,10 +49,16 @@ public partial class ChattingPage : ContentPage
         });
     }
 
+    void OnPopped(object sender, EventArgs e)
+    {
+        Debug.WriteLine("hi");
+    }
+
     async void Send(object sender, EventArgs e)
     {
         await connection.InvokeCoreAsync("SendMessage", args: new[] { Input.Text, RoomNumber });
         Input.Text = String.Empty;
+        await _mainPage.PopAsync();
         await Navigation.PopAsync();
 
     }

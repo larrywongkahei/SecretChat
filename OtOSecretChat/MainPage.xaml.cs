@@ -8,9 +8,12 @@ public partial class MainPage : ContentPage
 {
     private readonly HubConnection _connection;
 
+    public NavigationPage mainPage;
+
     public MainPage()
     {
         InitializeComponent();
+        mainPage = new NavigationPage(this);
         _connection = new HubConnectionBuilder()
             .WithUrl("http://localhost:5001/chat")
             .Build();
@@ -23,8 +26,6 @@ public partial class MainPage : ContentPage
     private async void OnButtonClicked(object sender, EventArgs e)
     {
         await DisplayPopup();
-
-
     }
 
     public async Task DisplayPopup()
@@ -40,8 +41,9 @@ public partial class MainPage : ContentPage
                 await waitForSeconds();
                 var decision = await this.ShowPopupAsync(new CreatePopup(_connection));
                 if (decision is int value)
-                {                  
-                    await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+                {
+                    await mainPage.PushAsync(new ChattingPage(_connection, decision.ToString(), mainPage));
+                    await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString(), mainPage));
                 }
             }
             else
@@ -53,8 +55,9 @@ public partial class MainPage : ContentPage
                     await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
                     var WaitingRoom = await this.ShowPopupAsync(new WaitingRoom(decision.ToString()));
                     if (WaitingRoom is bool)
-                    { 
-                        await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+                    {
+                        await mainPage.PushAsync(new ChattingPage(_connection, decision.ToString(), mainPage));
+                        await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString(), mainPage));
                     }
                 }
             }
