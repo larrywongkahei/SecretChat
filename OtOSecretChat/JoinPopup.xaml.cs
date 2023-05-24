@@ -27,7 +27,6 @@ public partial class JoinPopup : Popup
             using (HttpResponseMessage response = await client.GetAsync($"http://localhost:5001/api/Rooms/{RoomNum}"))
             {
                 string content = response.Content.ReadAsStringAsync().Result;
-                Debug.WriteLine(content);
                 if(content.Length > 0)
                 {
                     var theRoom = JsonSerializer.Deserialize<Room>(content);

@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Maui.Controls;
 
 namespace OtOSecretChat;
 
 public partial class ChattingPage : ContentPage
 {
-
     public string messageToShow { get; set; }
 
     public string RoomNumber { get; set; }
@@ -48,10 +48,14 @@ public partial class ChattingPage : ContentPage
     {
         await connection.InvokeCoreAsync("SendMessage", args: new[] { Input.Text, RoomNumber });
         Input.Text = String.Empty;
+        await Navigation.PopAsync();
 
     }
+
+
 }
-public class Labelclass
+
+    public class Labelclass
 {
     public string Text { get; set; }
 

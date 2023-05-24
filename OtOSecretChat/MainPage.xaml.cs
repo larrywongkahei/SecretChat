@@ -14,7 +14,6 @@ public partial class MainPage : ContentPage
         _connection = new HubConnectionBuilder()
             .WithUrl("http://localhost:5001/chat")
             .Build();
-
         Task.Run(() =>
         {
             Dispatcher.Dispatch(async () => await _connection.StartAsync());
@@ -61,8 +60,6 @@ public partial class MainPage : ContentPage
             }
         }
     }
-
-
     async Task waitForSeconds()
     {
         await Task.Delay(500);
