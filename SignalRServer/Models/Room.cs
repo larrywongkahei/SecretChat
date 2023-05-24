@@ -14,9 +14,14 @@ namespace SignalRServer.Models
 		[BsonElement("RoomNum")]
 		public int RoomNumber { get; set; }
 
-		public string? UserOne { get; set; }
+        [BsonElement("userOne")]
+        public string? UserOne { get; set; }
 
-		public string? UserTwo { get; set; }
-    }
+        [BsonElement("userTwo")]
+        public string? UserTwo { get; set; }
+
+        [BsonElement("isActive")]
+        public string? IsActive { get; set; }
+	}
 }
 

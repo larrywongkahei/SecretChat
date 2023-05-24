@@ -33,13 +33,11 @@ public partial class ChattingPage : ContentPage
 
             if (message.Split("«").Last().ToString() == connection.ConnectionId.Split(" ").Last())
             {
-                Debug.Write("Yes");
                 labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End });
 
             }
             else
             {
-                Debug.Write("No");
                 labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start });
             }
 

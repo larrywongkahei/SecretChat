@@ -9,17 +9,15 @@ namespace SignalRServer.Service
 	{
 		private readonly IMongoCollection<Room> _roomsCollection;
 
-		public RoomsService(
-			IOptions<RoomNumberDatabaseSettings> roomNumberDatabaseSettings)
+		public RoomsService()
 		{
-            var mongoClient = new MongoClient(
-            roomNumberDatabaseSettings.Value.ConnectionString);
+            const string connectionUri = "mongodb+srv://makemak123:makecak123@rooms.rmoptuv.mongodb.net/?retryWrites=true&w=majority";
+            var settings = MongoClientSettings.FromConnectionString(connectionUri);
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var mongoClient = new MongoClient(settings);
+            var mongoDatabase = mongoClient.GetDatabase("RoomNum");
 
-            var mongoDatabase = mongoClient.GetDatabase(
-                roomNumberDatabaseSettings.Value.DatabaseName);
-
-            _roomsCollection = mongoDatabase.GetCollection<Room>(
-                roomNumberDatabaseSettings.Value.BooksCollectionName);
+            _roomsCollection = mongoDatabase.GetCollection<Room>("Rooms");
         }
 
         public async Task<List<Room>> GetAsync() =>
@@ -31,8 +29,8 @@ namespace SignalRServer.Service
         public async Task CreateAsync(Room newRoom) =>
             await _roomsCollection.InsertOneAsync(newRoom);
 
-        public async Task UpdateAsync(string id, Room updatedBook) =>
-            await _roomsCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+        public async Task UpdateAsync(string roomNum, Room updatedRoom) =>
+            await _roomsCollection.ReplaceOneAsync(x => x.RoomNumber.ToString() == roomNum, updatedRoom);
 
         public async Task RemoveAsync(string id) =>
             await _roomsCollection.DeleteOneAsync(x => x.Id == id);

@@ -36,7 +36,6 @@ public partial class CreatePopup : Popup
 	{
 		using(HttpClient client = new HttpClient())
 		{
-			Debug.Write("created a client");
 			using (HttpResponseMessage response = await client.GetAsync($"http://localhost:5001/api/Rooms/{RoomNumber}"))
 			{
 				string content = response.Content.ReadAsStringAsync().Result;

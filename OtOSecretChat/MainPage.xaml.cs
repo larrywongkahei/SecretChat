@@ -15,17 +15,11 @@ public partial class MainPage : ContentPage
             .WithUrl("http://localhost:5001/chat")
             .Build();
 
-        //_connection.On<string>("ReceiveMessage", (message) =>
-        //{
-        //    Debug.WriteLine(message);
-        //});
-
         Task.Run(() =>
         {
             Dispatcher.Dispatch(async () => await _connection.StartAsync());
         });
     }
-
 
     private async void OnButtonClicked(object sender, EventArgs e)
     {
@@ -34,36 +28,6 @@ public partial class MainPage : ContentPage
 
     }
 
-    //public async Task DisplayPopup()
-    //{
-    //    var popup = new MainPagePopup();
-
-    //    var result = await this.ShowPopupAsync(popup);
-
-    //    if (result is bool returnVal)
-    //    {
-    //        if (returnVal)
-    //        {
-    //            await waitForSeconds();
-    //            var decision = await this.ShowPopupAsync(new CreatePopup());
-    //            if (decision is int value)
-    //            {
-    //                await _connection.InvokeCoreAsync("CreateRoom", args: new[] { decision.ToString() });
-    //                await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
-    //            }
-    //        }
-    //        else
-    //        {
-    //            await waitForSeconds();
-    //            var decision = await this.ShowPopupAsync(new JoinPopup());
-    //            if (decision is int value)
-    //            {
-    //                await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
-    //                await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
-    //            }
-    //        }
-    //    }
-    //}
     public async Task DisplayPopup()
     {
         var popup = new MainPagePopup();
@@ -89,7 +53,10 @@ public partial class MainPage : ContentPage
                 {
                     await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
                     var WaitingRoom = await this.ShowPopupAsync(new WaitingRoom(decision.ToString()));
-                    await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+                    if (WaitingRoom is bool)
+                    { 
+                        await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString()));
+                    }
                 }
             }
         }
@@ -100,12 +67,6 @@ public partial class MainPage : ContentPage
     {
         await Task.Delay(500);
     }
-
-    //public async void sendmessage(string message)
-    //{
-    //    await _connection.InvokeCoreAsync("SendMessage", args: new[] {"hi"});
-    //}
-
 }
 
 

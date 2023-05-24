@@ -4,6 +4,7 @@ using SignalRServer.Models;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using System.Threading;
+using System.Diagnostics;
 
 namespace OtOSecretChat;
 
@@ -26,33 +27,37 @@ public partial class JoinPopup : Popup
             using (HttpResponseMessage response = await client.GetAsync($"http://localhost:5001/api/Rooms/{RoomNum}"))
             {
                 string content = response.Content.ReadAsStringAsync().Result;
-                var theRoom = JsonSerializer.Deserialize<Room>(content);
-                if(theRoom == null)
+                Debug.WriteLine(content);
+                if(content.Length > 0)
                 {
-                        string text = "This room is not exist";
+                    var theRoom = JsonSerializer.Deserialize<Room>(content);
+                    if (theRoom.UserTwo != null)
+                    {
+                        string text = "This room is Full";
                         ToastDuration duration = ToastDuration.Short;
                         double fontSize = 14;
 
                         var toast = Toast.Make(text, duration, fontSize);
 
                         await toast.Show(cancellationTokenSource.Token);
-                    
+
+                    }
+                    else
+                    {
+                        Close(Convert.ToInt32(RoomNum));
+                    }
                 }
-                else if (theRoom.UserTwo != null)
+                else
                 {
-                    string text = "This room is Full";
+                    string text = "This room is not exist";
                     ToastDuration duration = ToastDuration.Short;
                     double fontSize = 14;
 
                     var toast = Toast.Make(text, duration, fontSize);
 
                     await toast.Show(cancellationTokenSource.Token);
+                }
 
-                }
-                else
-                {
-                    Close(Convert.ToInt32(RoomNum));
-                }
 
             }
         }
