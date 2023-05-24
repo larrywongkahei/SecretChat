@@ -32,6 +32,7 @@
             />
             <Label
                 Grid.Row="2"
+                x:Name="roomlabel"
                 Text="{Binding RoomNumber}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center"

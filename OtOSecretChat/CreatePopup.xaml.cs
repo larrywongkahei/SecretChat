@@ -76,6 +76,7 @@ public partial class CreatePopup : Popup
 					if(result == null)
 					{
 						RoomNumber = roomNum;
+						roomlabel.Text = roomNum.ToString();
 						break;
                     }
                 }
