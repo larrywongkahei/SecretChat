@@ -33,18 +33,26 @@ public partial class ChattingPage : ContentPage
             collection.ItemsSource = labelList;
         });
 
-        connection.On<String>("ReceiveMessage", (message) =>
+        connection.On<String>("ReceiveMessage", async (message) =>
         {
-
-            if (message.Split("«").Last().ToString() == connection.ConnectionId.Split(" ").Last())
+            if(message != "0«")
             {
-                labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End });
+                if (message.Split("«").Last().ToString() == connection.ConnectionId.Split(" ").Last())
+                {
+                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End });
 
+                }
+                else
+                {
+                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start });
+                }
             }
             else
             {
                 labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start });
+                Input.IsEnabled = false;
             }
+
 
         });
     }

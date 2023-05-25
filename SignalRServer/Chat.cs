@@ -41,17 +41,8 @@ namespace SignalRServer
 
         public async Task LeaveRoom(string RoomNum)
         {
-            await Clients.Group(RoomNum).SendAsync("ReceiveMessage", "This chat will be closed after 5 seconds, users would not be able to type.");
-            await Task.Delay(5000);
-            var theRoom = await _roomsService.GetAsync(RoomNum);
-            var userOne = theRoom?.UserOne;
-            var userTwo = theRoom?.UserTwo;
-            if(userOne != null && userTwo != null)
-            {
-                await Groups.RemoveFromGroupAsync(userOne, RoomNum);
-                await Groups.RemoveFromGroupAsync(userTwo, RoomNum);
-                await _roomsService.RemoveAsync(Convert.ToInt32(RoomNum));
-            }
+            await CountDown(RoomNum);
+            await RemoveEverything(RoomNum);
 
         }
 
@@ -62,6 +53,29 @@ namespace SignalRServer
             await _roomsService.UpdateAsync(RoomNum, newRoom);
         }
 
+        private async Task CountDown(string RoomNum)
+        {
+            await Clients.Group(RoomNum).SendAsync("ReceiveMessage", "This chat will be closed after 5 seconds, users would not be able to type.«");
+            await Task.Delay(1000);
+            for (var i = 0; i <= 4; i++)
+            {
+                await Clients.Group(RoomNum).SendAsync("ReceiveMessage", $"{4-i}«");
+                await Task.Delay(1000);
+            }
+        }
+
+        private async Task RemoveEverything(string RoomNum)
+        {
+            var theRoom = await _roomsService.GetAsync(RoomNum);
+            var userOne = theRoom?.UserOne;
+            var userTwo = theRoom?.UserTwo;
+            if (userOne != null && userTwo != null)
+            {
+                await Groups.RemoveFromGroupAsync(userOne, RoomNum);
+                await Groups.RemoveFromGroupAsync(userTwo, RoomNum);
+                await _roomsService.RemoveAsync(Convert.ToInt32(RoomNum));
+            }
+        }
     }
 }
 
