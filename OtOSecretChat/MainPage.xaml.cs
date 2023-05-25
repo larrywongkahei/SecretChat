@@ -1,12 +1,16 @@
 ﻿using System.Diagnostics;
+using System.Text.Json;
 using CommunityToolkit.Maui.Views;
 using Microsoft.AspNetCore.SignalR.Client;
+using SignalRServer.Models;
 
 namespace OtOSecretChat;
 
 public partial class MainPage : ContentPage
 {
     private readonly HubConnection _connection;
+
+    public string roomNum { get; set; }
 
     public NavigationPage mainPage;
 
@@ -28,6 +32,33 @@ public partial class MainPage : ContentPage
         await DisplayPopup();
     }
 
+    private async void CheckIfInvokeLeaveRoom()
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            using (HttpResponseMessage response = await client.GetAsync("http://localhost:5001/api/Rooms"))
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonSerializer.Deserialize<Room[]>(result);
+                var theGroup = data?.FirstOrDefault(x => x.UserOne == _connection.ConnectionId);
+                roomNum = theGroup?.RoomNumber.ToString();
+                if(theGroup?.IsActive == "true")
+                {
+                    Debug.WriteLine("Processing to invoke leave room");
+                    await _connection.InvokeCoreAsync("LeaveRoom", args: new[] { roomNum });
+                }
+                else
+                {
+                    Debug.WriteLine("This is either the first time or user didnt start a chat.");
+                }
+            }
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        CheckIfInvokeLeaveRoom();
+    }
     public async Task DisplayPopup()
     {
         var popup = new MainPagePopup();

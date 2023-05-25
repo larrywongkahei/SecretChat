@@ -51,16 +51,13 @@ public partial class ChattingPage : ContentPage
 
     async void OnPopped(object sender, EventArgs e)
     {
-        await connection.InvokeCoreAsync("LeaveRoom", args: new[] { RoomNumber });
+        await connection.InvokeCoreAsync("LeaveRoom", args: new[] {RoomNumber});
     }
 
     async void Send(object sender, EventArgs e)
     {
         await connection.InvokeCoreAsync("SendMessage", args: new[] { Input.Text, RoomNumber });
-        Input.Text = String.Empty;
-        await _mainPage.PopAsync();
-        await Navigation.PopAsync();
-
+        Input.Text = String.Empty;        
     }
 
 
