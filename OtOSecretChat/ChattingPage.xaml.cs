@@ -50,7 +50,8 @@ public partial class ChattingPage : ContentPage
             else
             {
                 labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start });
-                Input.IsEnabled = false;
+                Input.IsReadOnly = true;
+                sendButton.IsEnabled = false;
             }
 
 

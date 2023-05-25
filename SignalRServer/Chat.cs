@@ -49,7 +49,7 @@ namespace SignalRServer
         public async Task StartChatting(string RoomNum)
         {
             var response = await _roomsService.GetAsync(RoomNum);
-            Room newRoom = new Room { Id = response?.Id, RoomNumber = Convert.ToInt32(RoomNum), UserOne = response?.UserOne, UserTwo = Context.ConnectionId, IsActive = "true" };
+            Room newRoom = new Room { Id = response?.Id, RoomNumber = Convert.ToInt32(RoomNum), UserOne = response?.UserOne, UserTwo = response?.UserTwo, IsActive = "true" };
             await _roomsService.UpdateAsync(RoomNum, newRoom);
         }
 
