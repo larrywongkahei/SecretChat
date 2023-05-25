@@ -48,7 +48,7 @@ public partial class JoinPopup : Popup
                 }
                 else
                 {
-                    string text = "This room is not exist";
+                    string text = "This room does not exist";
                     ToastDuration duration = ToastDuration.Short;
                     double fontSize = 14;
 

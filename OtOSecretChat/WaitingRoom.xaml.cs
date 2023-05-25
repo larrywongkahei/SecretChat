@@ -1,5 +1,6 @@
 ﻿namespace OtOSecretChat;
 
+using System.Diagnostics;
 using System.Text.Json;
 using CommunityToolkit.Maui.Views;
 using SignalRServer.Models;
@@ -29,7 +30,7 @@ public partial class WaitingRoom : Popup
                     var theRoom = JsonSerializer.Deserialize<Room>(content);
                     if (theRoom.IsActive == "false")
                     {
-                        await Task.Delay(500);
+                        await Task.Delay(1000);
                     }
                     else
                     {

@@ -34,15 +34,32 @@ namespace SignalRServer
             if (response != null && response.UserTwo == null)
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, RoomNum);
-                Room newRoom = new Room { Id = response.Id, RoomNumber = response.RoomNumber, UserOne = response.UserOne, UserTwo = Context.ConnectionId, IsActive = "true"};
+                Room newRoom = new Room { Id = response.Id, RoomNumber = response.RoomNumber, UserOne = response.UserOne, UserTwo = Context.ConnectionId, IsActive = response?.IsActive};
                 await _roomsService.UpdateAsync(RoomNum, newRoom);
             }
         }
 
         public async Task LeaveRoom(string RoomNum)
         {
-            await _roomsService.RemoveAsync(Convert.ToInt32(RoomNum));
             await Clients.Group(RoomNum).SendAsync("ReceiveMessage", "This chat will be closed after 5 seconds, users would not be able to type.");
+            await Task.Delay(5000);
+            var theRoom = await _roomsService.GetAsync(RoomNum);
+            var userOne = theRoom?.UserOne;
+            var userTwo = theRoom?.UserTwo;
+            if(userOne != null && userTwo != null)
+            {
+                await Groups.RemoveFromGroupAsync(userOne, RoomNum);
+                await Groups.RemoveFromGroupAsync(userTwo, RoomNum);
+                await _roomsService.RemoveAsync(Convert.ToInt32(RoomNum));
+            }
+
+        }
+
+        public async Task StartChatting(string RoomNum)
+        {
+            var response = await _roomsService.GetAsync(RoomNum);
+            Room newRoom = new Room { Id = response?.Id, RoomNumber = Convert.ToInt32(RoomNum), UserOne = response?.UserOne, UserTwo = Context.ConnectionId, IsActive = "true" };
+            await _roomsService.UpdateAsync(RoomNum, newRoom);
         }
 
     }

@@ -23,12 +23,11 @@ public partial class CreatePopup : Popup
 		InitializeComponent();
 		getNonDuplicateNumber();
         BindingContext = this;		
-		createRoom();
     }
 
-	public async void createRoom()
+	public async void createRoom(int roomNum)
 	{
-		await _connection.InvokeCoreAsync("CreateRoom", args: new[] { RoomNumber.ToString() });
+		await _connection.InvokeCoreAsync("CreateRoom", args: new[] { roomNum.ToString() });
 	}
 
 	async void StartChatting(Object sender, EventArgs e)
@@ -76,7 +75,8 @@ public partial class CreatePopup : Popup
 					if(result == null)
 					{
 						RoomNumber = roomNum;
-						roomlabel.Text = roomNum.ToString();
+                        createRoom(roomNum);
+                        roomlabel.Text = roomNum.ToString();
 						break;
                     }
                 }

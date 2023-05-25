@@ -42,6 +42,7 @@ public partial class MainPage : ContentPage
                 var decision = await this.ShowPopupAsync(new CreatePopup(_connection));
                 if (decision is int value)
                 {
+                    await _connection.InvokeCoreAsync("StartChatting", args: new[] { decision.ToString() });
                     await mainPage.PushAsync(new ChattingPage(_connection, decision.ToString(), mainPage));
                     await Navigation.PushAsync(new ChattingPage(_connection, decision.ToString(), mainPage));
                 }
@@ -53,6 +54,7 @@ public partial class MainPage : ContentPage
                 if (decision is int value)
                 {
                     await _connection.InvokeCoreAsync("JoinRoom", args: new[] { decision.ToString() });
+                    await waitForSeconds();
                     var WaitingRoom = await this.ShowPopupAsync(new WaitingRoom(decision.ToString()));
                     if (WaitingRoom is bool)
                     {
