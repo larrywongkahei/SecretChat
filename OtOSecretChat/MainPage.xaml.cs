@@ -46,8 +46,8 @@ public partial class MainPage : ContentPage
                     var data = JsonSerializer.Deserialize<Room[]>(result);
                     var theGroup = data?.FirstOrDefault(x => x.UserOne == _connection.ConnectionId || x.UserTwo == _connection.ConnectionId);
                     roomNum = theGroup?.RoomNumber.ToString();
-                    Debug.Write(theGroup?.RoomNumber);
-                    Debug.Write(theGroup?.IsActive);
+                    Debug.WriteLine(theGroup?.RoomNumber);
+                    Debug.WriteLine(theGroup?.IsActive);
                     if (theGroup?.IsActive == "true")
                     {
                         Debug.WriteLine("Processing to invoke leave room");

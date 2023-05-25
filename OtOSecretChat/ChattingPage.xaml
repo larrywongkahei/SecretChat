@@ -5,26 +5,35 @@
              Title="ChattingPage">
     <ScrollView>
         <StackLayout BackgroundColor="black">
-        <CollectionView x:Name="collection" HeightRequest="630">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Frame Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="{Binding layout}" BackgroundColor="White">
-                            <Label Text="{Binding Text}" TextColor="Black" MaximumWidthRequest="130" MinimumWidthRequest="80" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" BackgroundColor="White" />
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
+            <CollectionView x:Name="collection" HeightRequest="630">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Frame Grid.Column="{Binding Column}" Grid.ColumnSpan="1" HorizontalOptions="{Binding layout}" BackgroundColor="White">
+                                <Label
+                                Text="{Binding Text}"
+                                TextColor="Black"
+                                MaximumWidthRequest="180"
+                                MinimumWidthRequest="80"
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Start"
+                                BackgroundColor="White"
+                                LineBreakMode="WordWrap"
+                                />
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
 
-            </CollectionView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
 
-        </CollectionView>
-<HorizontalStackLayout HorizontalOptions="Center">
-            <Entry
+            </CollectionView>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Entry
                 x:Name="Input"
                 Placeholder="Type your message"
                 FontSize="18"
@@ -34,7 +43,7 @@
                 TextColor="Black"
                 />
 
-            <Button
+                <Button
                 x:Name="sendButton"
                 Text="Send"
                 Clicked="Send"
@@ -42,8 +51,8 @@
                 BackgroundColor="AliceBlue"
                 
                 />
-    </HorizontalStackLayout>
+            </HorizontalStackLayout>
 
-                    </StackLayout>
-            </ScrollView>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
