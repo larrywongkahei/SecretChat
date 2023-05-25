@@ -39,10 +39,12 @@ public partial class MainPage : ContentPage
             using (HttpResponseMessage response = await client.GetAsync("http://localhost:5001/api/Rooms"))
             {
                 var result = response.Content.ReadAsStringAsync().Result;
-                if(result.Length > 0)
+                Debug.WriteLine("Result.length");
+                Debug.WriteLine(result.Length);
+                if (result.Length > 0)
                 {
                     var data = JsonSerializer.Deserialize<Room[]>(result);
-                    var theGroup = data?.FirstOrDefault(x => x.UserOne == _connection.ConnectionId);
+                    var theGroup = data?.FirstOrDefault(x => x.UserOne == _connection.ConnectionId || x.UserTwo == _connection.ConnectionId);
                     roomNum = theGroup?.RoomNumber.ToString();
                     Debug.Write(theGroup?.RoomNumber);
                     Debug.Write(theGroup?.IsActive);

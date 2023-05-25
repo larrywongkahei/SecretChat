@@ -33,7 +33,7 @@ public partial class ChattingPage : ContentPage
             collection.ItemsSource = labelList;
         });
 
-        connection.On<String>("ReceiveMessage", async (message) =>
+        connection.On<String>("ReceiveMessage", (message) =>
         {
             if(message != "0«")
             {
