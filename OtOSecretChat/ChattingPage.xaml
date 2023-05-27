@@ -10,7 +10,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout Padding="3">
-                            <Frame HorizontalOptions="{Binding layout}" BackgroundColor="{Binding Color}" Margin="10, 0, 10, 0" MinimumWidthRequest="70" BorderColor="{Binding Color}" >
+                            <Frame HorizontalOptions="{Binding layout}" BackgroundColor="{Binding Color}" Margin="{Binding Margin}" MinimumWidthRequest="70" BorderColor="{Binding Color}" >
                                 <Label
                                 Text="{Binding Text}"
                                 TextColor="White"
