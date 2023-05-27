@@ -31,7 +31,6 @@ public partial class MainPage : ContentPage
     {
         await DisplayPopup();
     }
-
     private async void CheckIfInvokeLeaveRoom()
     {
         using (HttpClient client = new HttpClient())

@@ -39,16 +39,16 @@ public partial class ChattingPage : ContentPage
             {
                 if (message.Split("«").Last().ToString() == connection.ConnectionId.Split(" ").Last())
                 {
-                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End, Column = 1});
+                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End, Column = 1, Color = Color.FromArgb("BCCCEB") });
                 }
                 else
                 {
-                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0});
+                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0, Color = Color.FromArgb("142239") });
                 }
             }
             else
             {
-                labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0});
+                labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0, Color = Color.FromArgb("142239") });
                 Input.IsReadOnly = true;
                 sendButton.IsEnabled = false;
             }
@@ -78,5 +78,7 @@ public partial class ChattingPage : ContentPage
     public LayoutOptions layout { get; set; }
 
     public int Column { get; set; }
+
+    public Color Color { get; set; }
 
 }
