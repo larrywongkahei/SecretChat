@@ -38,23 +38,14 @@ public partial class MainPage : ContentPage
             using (HttpResponseMessage response = await client.GetAsync("http://localhost:5001/api/Rooms"))
             {
                 var result = response.Content.ReadAsStringAsync().Result;
-                Debug.WriteLine("Result.length");
-                Debug.WriteLine(result.Length);
                 if (result.Length > 0)
                 {
                     var data = JsonSerializer.Deserialize<Room[]>(result);
                     var theGroup = data?.FirstOrDefault(x => x.UserOne == _connection.ConnectionId || x.UserTwo == _connection.ConnectionId);
                     roomNum = theGroup?.RoomNumber.ToString();
-                    Debug.WriteLine(theGroup?.RoomNumber);
-                    Debug.WriteLine(theGroup?.IsActive);
                     if (theGroup?.IsActive == "true")
                     {
-                        Debug.WriteLine("Processing to invoke leave room");
                         await _connection.InvokeCoreAsync("LeaveRoom", args: new[] { roomNum });
-                    }
-                    else
-                    {
-                        Debug.WriteLine("This is either the first time or user didnt start a chat.");
                     }
                 }
 

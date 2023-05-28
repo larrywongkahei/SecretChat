@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using SignalRServer.Models;
 using CommunityToolkit.Maui.Alerts;
 using System.Threading;
-using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core;c
 
 namespace OtOSecretChat;
 
@@ -87,9 +87,7 @@ public partial class CreatePopup : Popup
                 while (!readyToReturn)
                 {
                     int roomNum = randomNum.Next(1000, 9999);
-                    Debug.WriteLine(roomNum);
                     var result = data.FirstOrDefault(x => x.RoomNumber == roomNum);
-                    Debug.WriteLine(result?.RoomNumber);
                     if (result == null)
                     {
                         RoomNumber = roomNum;
