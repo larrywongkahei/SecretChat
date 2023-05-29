@@ -40,19 +40,21 @@ public partial class CreatePopup : Popup
             {
                 using (HttpResponseMessage response = await client.GetAsync($"http://localhost:5001/api/Rooms/{RoomNumber}"))
                 {
-                    string content = response.Content.ReadAsStringAsync().Result;
-                    var theRoom = JsonSerializer.Deserialize<Room>(content);
-                    if (theRoom.UserTwo != null)
+                    string content = response?.Content?.ReadAsStringAsync().Result;
+                    if(Content != null)
                     {
-                        Debug.WriteLine("Finish");
-                        CouldStart = !CouldStart;
-                        userlabel.Text = "User2";
+                        var theRoom = JsonSerializer.Deserialize<Room>(content);
+                        if (theRoom.UserTwo != null)
+                        {
+                            CouldStart = !CouldStart;
+                            userlabel.Text = "User2";
+                        }
+                        else
+                        {
+                            await Task.Delay(2000);
+                        }
                     }
-                    else
-                    {
-                        Debug.WriteLine("Failed");
-                        await Task.Delay(2000);
-                    }
+
                 }
             }
         }
@@ -81,22 +83,35 @@ public partial class CreatePopup : Popup
         {
             using (HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5001/api/Rooms"))
             {
-                string content = response.Content.ReadAsStringAsync().Result;
-                var data = JsonSerializer.Deserialize<Room[]>(content);
-                var randomNum = new Random();
-                bool readyToReturn = false;
-                while (!readyToReturn)
+                string content = response?.Content?.ReadAsStringAsync().Result;
+                if(content != null)
                 {
-                    int roomNum = randomNum.Next(1000, 9999);
-                    var result = data.FirstOrDefault(x => x.RoomNumber == roomNum);
-                    if (result == null)
+                    var data = JsonSerializer.Deserialize<Room[]>(content);
+                    var randomNum = new Random();
+                    bool readyToReturn = false;
+                    while (!readyToReturn)
                     {
-                        RoomNumber = roomNum;
-                        createRoom(roomNum);
-                        roomlabel.Text = roomNum.ToString();
-                        break;
+                        int roomNum = randomNum.Next(1000, 9999);
+                        var result = data.FirstOrDefault(x => x.RoomNumber == roomNum);
+                        if (result == null)
+                        {
+                            RoomNumber = roomNum;
+                            createRoom(roomNum);
+                            roomlabel.Text = roomNum.ToString();
+                            break;
+                        }
                     }
                 }
+                else
+                {
+                    var randomNum = new Random();
+                    int roomNum = randomNum.Next(1000, 9999);
+                    RoomNumber = roomNum;
+                    createRoom(roomNum);
+                    roomlabel.Text = roomNum.ToString();
+
+                }
+
                 ConfirmToStart();
 
 
