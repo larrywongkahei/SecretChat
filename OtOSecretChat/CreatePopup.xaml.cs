@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using SignalRServer.Models;
 using CommunityToolkit.Maui.Alerts;
 using System.Threading;
-using CommunityToolkit.Maui.Core;c
+using CommunityToolkit.Maui.Core;
 
 namespace OtOSecretChat;
 
@@ -24,7 +24,6 @@ public partial class CreatePopup : Popup
         _connection = connection;
         InitializeComponent();
         getNonDuplicateNumber();
-        ConfirmToStart();
         BindingContext = this;
     }
 
@@ -45,11 +44,13 @@ public partial class CreatePopup : Popup
                     var theRoom = JsonSerializer.Deserialize<Room>(content);
                     if (theRoom.UserTwo != null)
                     {
+                        Debug.WriteLine("Finish");
                         CouldStart = !CouldStart;
                         userlabel.Text = "User2";
                     }
                     else
                     {
+                        Debug.WriteLine("Failed");
                         await Task.Delay(2000);
                     }
                 }
@@ -96,6 +97,8 @@ public partial class CreatePopup : Popup
                         break;
                     }
                 }
+                ConfirmToStart();
+
 
             }
 
