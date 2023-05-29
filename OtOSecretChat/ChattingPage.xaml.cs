@@ -59,19 +59,19 @@ public partial class ChattingPage : ContentPage
 
     async void OnPopped(object sender, EventArgs e)
     {
-        await connection.InvokeCoreAsync("LeaveRoom", args: new[] {RoomNumber});
+        await connection.InvokeCoreAsync("LeaveRoom", args: new[] { RoomNumber });
     }
 
     async void Send(object sender, EventArgs e)
     {
         await connection.InvokeCoreAsync("SendMessage", args: new[] { Input.Text, RoomNumber });
-        Input.Text = String.Empty;        
+        Input.Text = String.Empty;
     }
 
 
 }
 
-    public class Labelclass
+public class Labelclass
 {
     public string Text { get; set; }
 
