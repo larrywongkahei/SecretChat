@@ -35,20 +35,20 @@ public partial class ChattingPage : ContentPage
 
         connection.On<String>("ReceiveMessage", (message) =>
         {
-            if(message != "0«")
+            if (message != "0«")
             {
                 if (message.Split("«").Last().ToString() == connection.ConnectionId.Split(" ").Last())
                 {
-                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End, Column = 1, Color = Color.FromArgb("BCCCEB"), Margin = new Thickness(130, 0, 10, 0) });
+                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.End, Column = 1, Color = Color.FromArgb("7896B2"), Margin = new Thickness(130, 6, 10, 0) });
                 }
                 else
                 {
-                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0, Color = Color.FromArgb("142239"), Margin = new Thickness(10, 0, 130, 0) });
+                    labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0, Color = Color.FromArgb("142239"), Margin = new Thickness(10, 6, 130, 0) });
                 }
             }
             else
             {
-                labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0, Color = Color.FromArgb("142239"), Margin = new Thickness(10, 0, 300, 0) });
+                labelList.Add(new Labelclass { Text = message.Split("«").First().ToString(), layout = LayoutOptions.Start, Column = 0, Color = Color.FromArgb("142239"), Margin = new Thickness(10, 6, 300, 0) });
                 Input.IsReadOnly = true;
                 sendButton.IsEnabled = false;
             }
